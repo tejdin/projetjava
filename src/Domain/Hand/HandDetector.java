@@ -49,7 +49,7 @@ public class HandDetector {
 	private boolean estSuite(List<Card> cards) {
 	    List<Card> t = new ArrayList<>(cards);
 	    
-	    t.sort((a,b)-> a.rank().Ordre() - b.rank().Ordre());
+	    t.sort((a, b) -> a.rank().ordre() - b.rank().ordre());
 	    
 	    if (t.get(0).rank() == Rank.DEUX
 	            && t.get(1).rank() == Rank.TROIS
@@ -60,8 +60,8 @@ public class HandDetector {
 	        }
 		
 		for (int i = 0; i < cards.size()-1; i++) {
-			int c = t.get(i).rank().Ordre();
-			int s = t.get(i+1).rank().Ordre();
+			int c = t.get(i).rank().ordre();
+			int s = t.get(i+1).rank().ordre();
 			if(c+1 != s)return false;
 		}
 		return true;

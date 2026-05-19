@@ -26,15 +26,15 @@ public enum Rank {
         this.ordre = ordre;
     }
     
-    public String Symbole() {
+    public String symbole() {
     	return s;
     }
-    
-    public int Value() {
+
+    public int value() {
     	return value;
     }
-    
-    public int Ordre() {
+
+    public int ordre() {
     	return ordre;
     }
     

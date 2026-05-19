@@ -11,7 +11,7 @@ import Domain.Hand.*;
 import Domain.others.*;
 
 public class GameState {
-    private Blink currentBlink;
+    private Blind currentBlind;
     private List<Card> cardsInHand;
     private int handsRemaining;
     private int score;
@@ -19,7 +19,7 @@ public class GameState {
     private final Map<Type, Integer> bonusMult;
     
     public GameState() {
-        this.currentBlink = null;
+        this.currentBlind = null;
         this.cardsInHand = new ArrayList<>();
         this.handsRemaining = 4;
         this.score = 0;
@@ -43,13 +43,13 @@ public class GameState {
         this.score = 0;
     }
     
-    public Blink currentBlink() {
-        return currentBlink;
+    public Blind currentBlind() {
+        return currentBlind;
     }
     
-    public void setCurrentBlink(Blink blink) {
-        Objects.requireNonNull(blink);
-        this.currentBlink = blink;
+    public void setCurrentBlind(Blind blind) {
+        Objects.requireNonNull(blind);
+        this.currentBlind = blind;
     }
     
     public int handsRemaining() {
@@ -83,16 +83,16 @@ public class GameState {
     
     public void applyPlanet(Planet planet) {
         Objects.requireNonNull(planet);
-        Type cible = planet.HandType();
+        Type cible = planet.handType();
         bonusChips.merge(cible, planet.bonusPoint(), Integer::sum);
         bonusMult.merge(cible, planet.bonusMult(), Integer::sum);
     }
     
-    public boolean isBlinkBeaten() {
-        return currentBlink != null && score >= currentBlink.score();
+    public boolean isBlindBeaten() {
+        return currentBlind != null && score >= currentBlind.score();
     }
     
     public boolean isGameLost() {
-        return handsRemaining <= 0 && !isBlinkBeaten();
+        return handsRemaining <= 0 && !isBlindBeaten();
     }
 }

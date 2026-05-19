@@ -13,13 +13,13 @@ public enum Planet {
     NEPTUNE ("Neptune", Type.QUINTE_FLUSH,  40, 4);
 
     private final String nom;
-    private final Type HandType;
+    private final Type handType;
     private final int bonusPoint;
     private final int bonusMult;
 
-    Planet(String nom, Type HandType, int bonusPoint, int bonusMult) {
+    Planet(String nom, Type handType, int bonusPoint, int bonusMult) {
         this.nom = nom;
-        this.HandType = HandType;
+        this.handType = handType;
         this.bonusPoint = bonusPoint;
         this.bonusMult = bonusMult;
     }
@@ -28,8 +28,8 @@ public enum Planet {
         return nom;
     }
 
-    public Type HandType() {
-        return HandType;
+    public Type handType() {
+        return handType;
     }
 
     public int bonusPoint() {
