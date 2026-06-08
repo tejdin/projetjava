@@ -1,4 +1,4 @@
-package Domain.Hand;
+package domain.hand;
 
 public enum Type {
 	    CARTE_HAUTE("Carte haute", 5, 1),

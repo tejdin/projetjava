@@ -1,5 +1,5 @@
-package Domain.others;
-import Domain.Hand.*;
+package domain.others;
+import domain.hand.*;
 
 public enum Planet {
     PLUTON  ("Pluton",  Type.CARTE_HAUTE,   10, 1),

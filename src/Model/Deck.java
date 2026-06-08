@@ -1,8 +1,8 @@
-package Model;
+package model;
 
-import Domain.Card.Card;
-import Domain.Card.Couleur;
-import Domain.Card.Rank;
+import domain.card.Card;
+import domain.card.Couleur;
+import domain.card.Rank;
 
 import java.util.ArrayList;
 import java.util.Arrays;

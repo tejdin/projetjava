@@ -1,10 +1,10 @@
-package Views.component;
+package views.component;
 
 import java.awt.Graphics2D;
 import java.awt.Color;
 import java.awt.Font;
-import Model.GameState;
-import Domain.others.Blind;
+import model.GameState;
+import domain.others.Blind;
 
 public class BoardView {
 
@@ -34,9 +34,10 @@ public class BoardView {
 		g.drawString("a battre : " + objectif, x + 20, y + 72);
 
 		g.setFont(new Font("SansSerif", Font.BOLD, 20));
-		int ligne = y + 130;
-		int pas = 40;
-		g.drawString("Score : " + state.score(),          x + 20, ligne);
-		g.drawString("Mains : " + state.handsRemaining(), x + 20, ligne += pas);
+		int ligne = y + 120;
+		int pas = 32;
+		g.drawString("Score : " + state.score(),               x + 20, ligne);
+		g.drawString("Mains : " + state.handsRemaining(),      x + 20, ligne += pas);
+		g.drawString("Defausses : " + state.discardsRemaining(), x + 20, ligne += pas);
 	}
 }

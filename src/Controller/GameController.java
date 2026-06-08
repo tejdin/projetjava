@@ -1,13 +1,16 @@
-package Controller;
+package controller;
 
-import Domain.Hand.HandDetector;
-import Domain.Hand.Type;
-import Domain.others.Blind;
-import Domain.others.Planet;
-import Model.Deck;
-import Model.GameState;
-import Views.View;
+import domain.hand.HandDetector;
+import domain.hand.Type;
+import domain.others.Blind;
+import domain.others.Planet;
+import model.Deck;
+import model.GameState;
+import model.HighScore;
+import views.PlayerAction;
+import views.View;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
@@ -20,7 +23,6 @@ public class GameController {
     private final Random random = new Random();
     private GameState state;
     private Deck deck;
-    private List<Blind> blinds;
 
     public GameController(View view) {
         this.view = Objects.requireNonNull(view, "La view ne peut pas être null");
@@ -29,19 +31,34 @@ public class GameController {
 
     public void run() {
         view.displayWelcome();
-        for (var blind : blinds) {
-            if (!jouerBlind(blind)) {
-                view.displayDefeat();
-                return;
-            }
+
+        var blindsBeaten = 0;
+        var totalScore = 0;
+        while (true) {
+            var beaten = jouerBlind(nextBlind(blindsBeaten + 1));
+            totalScore += state.score();
+            if (!beaten) break;
+            blindsBeaten++;
         }
-        view.displayVictory();
+
+        var previousBest = HighScore.load();
+        var newRecord = totalScore > previousBest;
+        if (newRecord) HighScore.save(totalScore);
+        view.displayGameOver(blindsBeaten, totalScore, Math.max(previousBest, totalScore), newRecord);
+    }
+
+    private Blind nextBlind(int numero) {
+        var names = List.of("Petit Blind", "Grand Blind", "Boss Blind");
+        var name = names.get((numero - 1) % names.size()) + " #" + numero;
+        var target = (int) (100 * numero);
+        return new Blind(name, target);
     }
 
     private boolean jouerBlind(Blind blind) {
         state.setCurrentBlind(blind);
         state.resetScore();
         state.resetHands(4);
+        state.resetDiscards(3);
         view.displayGameState(state);
 
         while (state.handsRemaining() > 0 && !state.isBlindBeaten()) {
@@ -59,23 +76,38 @@ public class GameController {
     }
 
     private void jouerTour() {
-        var drawnCards = deck.draw(8);
-        view.displayDrawnCards(drawnCards);
+        var hand = new ArrayList<>(deck.draw(8));
+        view.displayDrawnCards(hand);
 
-        var selectedIndices = view.requestSelection(drawnCards);
-        var selectedCards = selectedIndices.stream().map(drawnCards::get).toList();
-        var discardedCards = IntStream.range(0, drawnCards.size())
-                .filter(i -> !selectedIndices.contains(i))
-                .mapToObj(drawnCards::get)
-                .toList();
+        while (true) {
+            var action = view.requestAction(hand, state.discardsRemaining());
+            var indices = action.indices();
+            var chosen = indices.stream().map(hand::get).toList();
 
-        var handType = detector.detect(selectedCards);
-        var score = calculerScore(handType);
-        state.addScore(score);
-        state.setCardsInHand(selectedCards);
+            if (action.kind() == PlayerAction.Kind.DISCARD && state.discardsRemaining() > 0) {
+                deck.discard(chosen);
+                var fresh = deck.draw(indices.size());
+                IntStream.range(0, indices.size())
+                        .forEach(k -> hand.set(indices.get(k), fresh.get(k)));
+                state.decrementDiscards();
+                view.displayDrawnCards(hand);
+                continue;
+            }
 
-        view.displayHandType(handType, score);
-        deck.discard(discardedCards);
+            var discardedCards = IntStream.range(0, hand.size())
+                    .filter(i -> !indices.contains(i))
+                    .mapToObj(hand::get)
+                    .toList();
+
+            var handType = detector.detect(chosen);
+            var score = calculerScore(handType);
+            state.addScore(score);
+            state.setCardsInHand(chosen);
+
+            view.displayHandType(handType, score);
+            deck.discard(discardedCards);
+            return;
+        }
     }
 
     private int calculerScore(Type handType) {
@@ -93,10 +125,5 @@ public class GameController {
     private void initialiserPartie() {
         deck = new Deck();
         state = new GameState();
-        blinds = List.of(
-                new Blind("Petit Blind", 300),
-                new Blind("Grand Blind", 600),
-                new Blind("Boss Blind", 1200)
-        );
     }
 }

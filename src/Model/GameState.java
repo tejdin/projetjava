@@ -1,4 +1,4 @@
-package Model;
+package model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -6,22 +6,24 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-import Domain.Card.*;
-import Domain.Hand.*;
-import Domain.others.*;
+import domain.card.*;
+import domain.hand.*;
+import domain.others.*;
 
 public class GameState {
     private Blind currentBlind;
     private List<Card> cardsInHand;
     private int handsRemaining;
+    private int discardsRemaining;
     private int score;
     private final Map<Type, Integer> bonusChips;
     private final Map<Type, Integer> bonusMult;
-    
+
     public GameState() {
         this.currentBlind = null;
         this.cardsInHand = new ArrayList<>();
         this.handsRemaining = 4;
+        this.discardsRemaining = 3;
         this.score = 0;
         this.bonusChips = new HashMap<>();
         this.bonusMult = new HashMap<>();
@@ -63,7 +65,19 @@ public class GameState {
     public void resetHands(int n) {
         this.handsRemaining = n;
     }
-    
+
+    public int discardsRemaining() {
+        return discardsRemaining;
+    }
+
+    public void decrementDiscards() {
+        if (discardsRemaining > 0) discardsRemaining--;
+    }
+
+    public void resetDiscards(int n) {
+        this.discardsRemaining = n;
+    }
+
     public List<Card> cardsInHand() {
         return cardsInHand;
     }

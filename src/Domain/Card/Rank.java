@@ -1,4 +1,4 @@
-package Domain.Card;
+package domain.card;
 
 public enum Rank {
 	DEUX("2", 2, 2),

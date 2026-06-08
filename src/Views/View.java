@@ -1,10 +1,10 @@
-package Views;
+package views;
 
-import Domain.Card.Card;
-import Domain.Hand.Type;
-import Domain.others.Blind;
-import Domain.others.Planet;
-import Model.GameState;
+import domain.card.Card;
+import domain.hand.Type;
+import domain.others.Blind;
+import domain.others.Planet;
+import model.GameState;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ public interface View {
     
     void displayDrawnCards(List<Card> cards);
 
-    List<Integer> requestSelection(List<Card> cards);
+    PlayerAction requestAction(List<Card> hand, int discardsRemaining);
     
     void displayHandType(Type type, int score);
     
@@ -23,9 +23,7 @@ public interface View {
     
     void displayObtainedPlanet(Planet planet);
     
-    void displayVictory();
-    
-    void displayDefeat();
-    
+    void displayGameOver(int blindsBeaten, int totalScore, int highScore, boolean newRecord);
+
     void displayMessage(String message);
 }
