@@ -48,7 +48,7 @@ public class GameController {
     }
 
     private Blind nextBlind(int number) {
-        var names = List.of("Small Blind", "Big Blind", "Boss Blind");
+        var names = List.of("Petit Blind", "Grand Blind", "Boss Blind");
         var name = names.get((number - 1) % names.size()) + " #" + number;
         var target = (int) (100 * number);
         return new Blind(name, target);

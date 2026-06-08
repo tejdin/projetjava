@@ -31,13 +31,13 @@ public class BoardView {
 
 		g.setColor(Color.WHITE);
 		g.setFont(new Font("SansSerif", Font.PLAIN, 16));
-		g.drawString("To beat: " + target, x + 20, y + 72);
+		g.drawString("À battre : " + target, x + 20, y + 72);
 
 		g.setFont(new Font("SansSerif", Font.BOLD, 20));
 		int line = y + 120;
 		int step = 32;
-		g.drawString("Score: " + state.score(),                 x + 20, line);
-		g.drawString("Hands: " + state.handsRemaining(),        x + 20, line += step);
-		g.drawString("Discards: " + state.discardsRemaining(),  x + 20, line += step);
+		g.drawString("Score : " + state.score(),                  x + 20, line);
+		g.drawString("Mains : " + state.handsRemaining(),         x + 20, line += step);
+		g.drawString("Défausses : " + state.discardsRemaining(),  x + 20, line += step);
 	}
 }

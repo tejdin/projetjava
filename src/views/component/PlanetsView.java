@@ -30,12 +30,12 @@ public final class PlanetsView {
 
 		g.setColor(new Color(180, 140, 255));
 		g.setFont(new Font("SansSerif", Font.BOLD, 22));
-		g.drawString("Planets", x + 20, y + 35);
+		g.drawString("Planètes", x + 20, y + 35);
 
 		g.setFont(new Font("SansSerif", Font.PLAIN, 15));
 		if (planets.isEmpty()) {
 			g.setColor(new Color(200, 200, 200));
-			g.drawString("(none yet)", x + 20, y + 68);
+			g.drawString("(aucune pour l'instant)", x + 20, y + 68);
 			return;
 		}
 
