@@ -2,30 +2,30 @@ package domain.others;
 import domain.hand.*;
 
 public enum Planet {
-    PLUTON  ("Pluton",  Type.CARTE_HAUTE,   10, 1),
-    MERCURE ("Mercure", Type.PAIRE,         15, 1),
-    URANUS  ("Uranus",  Type.DOUBLE_PAIRE,  20, 1),
-    VENUS   ("Vénus",   Type.BRELAN,        20, 2),
-    SATURNE ("Saturne", Type.SUITE,         30, 3),
-    JUPITER ("Jupiter", Type.COULEUR,       15, 2),
-    TERRE   ("Terre",   Type.FULL,          25, 2),
-    MARS    ("Mars",    Type.CARRE,         30, 3),
-    NEPTUNE ("Neptune", Type.QUINTE_FLUSH,  40, 4);
+    PLUTO   ("Pluto",   Type.HIGH_CARD,        10, 1),
+    MERCURY ("Mercury", Type.PAIR,             15, 1),
+    URANUS  ("Uranus",  Type.TWO_PAIR,         20, 1),
+    VENUS   ("Venus",   Type.THREE_OF_A_KIND,  20, 2),
+    SATURN  ("Saturn",  Type.STRAIGHT,         30, 3),
+    JUPITER ("Jupiter", Type.FLUSH,            15, 2),
+    EARTH   ("Earth",   Type.FULL_HOUSE,       25, 2),
+    MARS    ("Mars",    Type.FOUR_OF_A_KIND,   30, 3),
+    NEPTUNE ("Neptune", Type.STRAIGHT_FLUSH,   40, 4);
 
-    private final String nom;
+    private final String displayName;
     private final Type handType;
     private final int bonusPoint;
     private final int bonusMult;
 
-    Planet(String nom, Type handType, int bonusPoint, int bonusMult) {
-        this.nom = nom;
+    Planet(String displayName, Type handType, int bonusPoint, int bonusMult) {
+        this.displayName = displayName;
         this.handType = handType;
         this.bonusPoint = bonusPoint;
         this.bonusMult = bonusMult;
     }
 
-    public String nom() {
-        return nom;
+    public String displayName() {
+        return displayName;
     }
 
     public Type handType() {

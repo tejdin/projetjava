@@ -23,7 +23,7 @@ public final class HighScore {
 		try {
 			Files.writeString(FILE, Integer.toString(score));
 		} catch (IOException e) {
-			IO.println("Erreur lors de la sauvegarde du score : " + e.getMessage());
+			IO.println("Error while saving the score: " + e.getMessage());
 		}
 	}
 }

@@ -32,14 +32,14 @@ public final class GraphicalView implements View {
 	private final BoardView board = new BoardView(40, 100);
 	private final PlanetsView planetsView;
 
-	// boutons "JOUER" et "DEFAUSSER"
+	// "PLAY" and "DISCARD" buttons
 	private final int buttonWidth = 200;
 	private final int buttonHeight = 50;
 	private final int buttonY;
 	private final int playButtonX;
 	private final int discardButtonX;
 
-	// etat d'affichage mutable
+	// mutable display state
 	private GameState state;
 	private List<CardView> cardViews = List.of();
 	private final List<Planet> planets = new ArrayList<>();
@@ -60,8 +60,8 @@ public final class GraphicalView implements View {
 
 	@Override
 	public void displayWelcome() {
-		showOverlayUntilClick("BALATRI\nMeilleur score : " + HighScore.load()
-				+ "\nCliquez pour commencer");
+		showOverlayUntilClick("BALATRI\nBest score: " + HighScore.load()
+				+ "\nClick to start");
 	}
 
 	@Override
@@ -113,30 +113,30 @@ public final class GraphicalView implements View {
 	@Override
 	public void displayHandType(Type type, int score) {
 		Objects.requireNonNull(type);
-		showOverlayUntilClick("Combinaison : " + type.nom() + "\nScore obtenu : " + score);
+		showOverlayUntilClick("Hand: " + type.displayName() + "\nScore: " + score);
 	}
 
 	@Override
 	public void displayBlindBeaten(Blind blind) {
 		Objects.requireNonNull(blind);
-		showOverlayUntilClick("Blind battu !\n" + blind.name());
+		showOverlayUntilClick("Blind beaten!\n" + blind.name());
 	}
 
 	@Override
 	public void displayObtainedPlanet(Planet planet) {
 		Objects.requireNonNull(planet);
 		planets.add(planet);
-		showOverlayUntilClick("Planete obtenue : " + planet.nom()
-				+ "\nAmeliore : " + planet.handType().nom());
+		showOverlayUntilClick("Planet obtained: " + planet.displayName()
+				+ "\nBoosts: " + planet.handType().displayName());
 	}
 
 	@Override
 	public void displayGameOver(int blindsBeaten, int totalScore, int highScore, boolean newRecord) {
-		var record = newRecord ? "\nNOUVEAU RECORD !" : "";
-		showOverlayUntilClick("PARTIE TERMINEE"
-				+ "\nBlinds battus : " + blindsBeaten
-				+ "\nScore total : " + totalScore
-				+ "\nMeilleur score : " + highScore + record);
+		var record = newRecord ? "\nNEW RECORD!" : "";
+		showOverlayUntilClick("GAME OVER"
+				+ "\nBlinds beaten: " + blindsBeaten
+				+ "\nTotal score: " + totalScore
+				+ "\nBest score: " + highScore + record);
 	}
 
 	@Override
@@ -211,9 +211,9 @@ public final class GraphicalView implements View {
 	private void drawButtons(Graphics2D g) {
 		var count = selectedCount();
 		drawButton(g, playButtonX, count == MAX_SELECTION,
-				"JOUER (" + count + "/" + MAX_SELECTION + ")");
+				"PLAY (" + count + "/" + MAX_SELECTION + ")");
 		drawButton(g, discardButtonX, count >= 1 && discardsRemaining > 0,
-				"DEFAUSSER (" + discardsRemaining + ")");
+				"DISCARD (" + discardsRemaining + ")");
 	}
 
 	private void drawButton(Graphics2D g, int x0, boolean enabled, String label) {
@@ -240,7 +240,7 @@ public final class GraphicalView implements View {
 			g.drawString(lines[i], (width - w) / 2, startY + i * lineHeight);
 		});
 
-		var hint = "Cliquez pour continuer";
+		var hint = "Click to continue";
 		g.setColor(new Color(255, 190, 0));
 		g.setFont(new Font("SansSerif", Font.PLAIN, 16));
 		var hintWidth = g.getFontMetrics().stringWidth(hint);

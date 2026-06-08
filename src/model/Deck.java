@@ -1,7 +1,7 @@
 package model;
 
 import domain.card.Card;
-import domain.card.Couleur;
+import domain.card.Suit;
 import domain.card.Rank;
 
 import java.util.ArrayList;
@@ -16,14 +16,14 @@ public class Deck {
 
     public Deck() {
         this.discardPile = new ArrayList<>();
-        this.drawPile = new ArrayList<>(Arrays.stream(Couleur.values())
+        this.drawPile = new ArrayList<>(Arrays.stream(Suit.values())
                 .flatMap(c -> Arrays.stream(Rank.values()).map(r -> new Card(r, c)))
                 .toList());
         Collections.shuffle(this.drawPile);
     }
 
     public List<Card> draw(int n) {
-        if (n < 0) throw new IllegalArgumentException("Le nombre de cartes à piocher doit être positif ou nul.");
+        if (n < 0) throw new IllegalArgumentException("The number of cards to draw must be positive or zero.");
 
         if (drawPile.size() < n) reshuffle();
 
@@ -35,8 +35,8 @@ public class Deck {
     }
 
     public void discard(List<Card> cards) {
-        Objects.requireNonNull(cards, "La liste de cartes ne peut pas être null");
-        cards.forEach(c -> Objects.requireNonNull(c, "La défausse ne peut pas contenir de carte null"));
+        Objects.requireNonNull(cards, "The card list cannot be null");
+        cards.forEach(c -> Objects.requireNonNull(c, "The discard pile cannot contain a null card"));
         discardPile.addAll(cards);
     }
 

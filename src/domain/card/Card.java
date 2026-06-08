@@ -2,15 +2,15 @@ package domain.card;
 
 import java.util.Objects;
 
-public record Card(Rank rank, Couleur color ) {
+public record Card(Rank rank, Suit suit ) {
 	public Card{
 		Objects.requireNonNull(rank);
-		Objects.requireNonNull(color);
+		Objects.requireNonNull(suit);
 	}
 	
 	@Override
 	public final String toString() {
-		return rank.symbole() + " " + color.name();
+		return rank.symbol() + " " + suit.name();
 	}
 	
 	

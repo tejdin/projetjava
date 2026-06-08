@@ -97,9 +97,9 @@ public class GameState {
     
     public void applyPlanet(Planet planet) {
         Objects.requireNonNull(planet);
-        Type cible = planet.handType();
-        bonusChips.merge(cible, planet.bonusPoint(), Integer::sum);
-        bonusMult.merge(cible, planet.bonusMult(), Integer::sum);
+        Type target = planet.handType();
+        bonusChips.merge(target, planet.bonusPoint(), Integer::sum);
+        bonusMult.merge(target, planet.bonusMult(), Integer::sum);
     }
     
     public boolean isBlindBeaten() {

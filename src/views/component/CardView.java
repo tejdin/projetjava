@@ -7,7 +7,7 @@ import java.awt.Graphics2D;
 import java.util.Objects;
 
 import domain.card.Card;
-import domain.card.Couleur;
+import domain.card.Suit;
 
 public final class CardView {
 
@@ -38,22 +38,22 @@ public final class CardView {
 		g.setColor(new Color(170, 170, 170));
 		g.drawRoundRect(x, y, WIDTH, HEIGHT, 14, 14);
 
-		var rank = card.rank().symbole();
-		var suit = symbole(card.color());
-		g.setColor(isRed(card.color()) ? RED : BLACK);
+		var rank = card.rank().symbol();
+		var suit = symbol(card.suit());
+		g.setColor(isRed(card.suit()) ? RED : BLACK);
 
-		// coin haut-gauche : rang puis enseigne
+		// top-left corner: rank then suit
 		g.setFont(new Font("SansSerif", Font.BOLD, 18));
 		g.drawString(rank, x + 8, y + 25);
 		g.setFont(new Font("SansSerif", Font.PLAIN, 16));
 		g.drawString(suit, x + 8, y + 44);
 
-		// grand symbole central
+		// large central symbol
 		g.setFont(new Font("SansSerif", Font.PLAIN, 46));
 		var fm = g.getFontMetrics();
 		g.drawString(suit, x + (WIDTH - fm.stringWidth(suit)) / 2, y + HEIGHT / 2 + 20);
 
-		// coin bas-droit (miroir)
+		// bottom-right corner (mirrored)
 		g.setFont(new Font("SansSerif", Font.BOLD, 18));
 		var rankWidth = g.getFontMetrics().stringWidth(rank);
 		g.drawString(rank, x + WIDTH - 8 - rankWidth, y + HEIGHT - 26);
@@ -61,7 +61,7 @@ public final class CardView {
 		var suitWidth = g.getFontMetrics().stringWidth(suit);
 		g.drawString(suit, x + WIDTH - 8 - suitWidth, y + HEIGHT - 8);
 
-		// surbrillance si selectionnee
+		// highlight if selected
 		if (selected) {
 			g.setStroke(new BasicStroke(4f));
 			g.setColor(new Color(255, 190, 0));
@@ -69,16 +69,16 @@ public final class CardView {
 		}
 	}
 
-	private static boolean isRed(Couleur couleur) {
-		return couleur == Couleur.COEUR || couleur == Couleur.CARREAU;
+	private static boolean isRed(Suit suit) {
+		return suit == Suit.HEARTS || suit == Suit.DIAMONDS;
 	}
 
-	private static String symbole(Couleur couleur) {
-		var codePoint = switch (couleur) {
-			case COEUR -> 0x2665;   // coeur
-			case CARREAU -> 0x2666; // carreau
-			case PIQUE -> 0x2660;   // pique
-			case TREFLE -> 0x2663;  // trefle
+	private static String symbol(Suit suit) {
+		var codePoint = switch (suit) {
+			case HEARTS -> 0x2665;
+			case DIAMONDS -> 0x2666;
+			case SPADES -> 0x2660;
+			case CLUBS -> 0x2663;
 		};
 		return Character.toString(codePoint);
 	}

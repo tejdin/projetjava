@@ -25,8 +25,8 @@ public class GameController {
     private Deck deck;
 
     public GameController(View view) {
-        this.view = Objects.requireNonNull(view, "La view ne peut pas être null");
-        initialiserPartie();
+        this.view = Objects.requireNonNull(view, "The view cannot be null");
+        initializeGame();
     }
 
     public void run() {
@@ -35,7 +35,7 @@ public class GameController {
         var blindsBeaten = 0;
         var totalScore = 0;
         while (true) {
-            var beaten = jouerBlind(nextBlind(blindsBeaten + 1));
+            var beaten = playBlind(nextBlind(blindsBeaten + 1));
             totalScore += state.score();
             if (!beaten) break;
             blindsBeaten++;
@@ -47,14 +47,14 @@ public class GameController {
         view.displayGameOver(blindsBeaten, totalScore, Math.max(previousBest, totalScore), newRecord);
     }
 
-    private Blind nextBlind(int numero) {
-        var names = List.of("Petit Blind", "Grand Blind", "Boss Blind");
-        var name = names.get((numero - 1) % names.size()) + " #" + numero;
-        var target = (int) (100 * numero);
+    private Blind nextBlind(int number) {
+        var names = List.of("Small Blind", "Big Blind", "Boss Blind");
+        var name = names.get((number - 1) % names.size()) + " #" + number;
+        var target = (int) (100 * number);
         return new Blind(name, target);
     }
 
-    private boolean jouerBlind(Blind blind) {
+    private boolean playBlind(Blind blind) {
         state.setCurrentBlind(blind);
         state.resetScore();
         state.resetHands(4);
@@ -62,20 +62,20 @@ public class GameController {
         view.displayGameState(state);
 
         while (state.handsRemaining() > 0 && !state.isBlindBeaten()) {
-            jouerTour();
+            playTurn();
             state.decrementHands();
             view.displayGameState(state);
         }
 
         if (state.isBlindBeaten()) {
             view.displayBlindBeaten(blind);
-            donnerPlaneteAleatoire();
+            awardRandomPlanet();
             return true;
         }
         return false;
     }
 
-    private void jouerTour() {
+    private void playTurn() {
         var hand = new ArrayList<>(deck.draw(8));
         view.displayDrawnCards(hand);
 
@@ -100,7 +100,7 @@ public class GameController {
                     .toList();
 
             var handType = detector.detect(chosen);
-            var score = calculerScore(handType);
+            var score = computeScore(handType);
             state.addScore(score);
             state.setCardsInHand(chosen);
 
@@ -110,19 +110,19 @@ public class GameController {
         }
     }
 
-    private int calculerScore(Type handType) {
+    private int computeScore(Type handType) {
         return (handType.points() + state.bonusChips(handType))
                 * (handType.mult() + state.bonusMult(handType));
     }
 
-    private void donnerPlaneteAleatoire() {
+    private void awardRandomPlanet() {
         var planets = Planet.values();
         var planet = planets[random.nextInt(planets.length)];
         view.displayObtainedPlanet(planet);
         state.applyPlanet(planet);
     }
 
-    private void initialiserPartie() {
+    private void initializeGame() {
         deck = new Deck();
         state = new GameState();
     }

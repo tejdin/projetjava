@@ -1,41 +1,41 @@
 package domain.card;
 
 public enum Rank {
-	DEUX("2", 2, 2),
-    TROIS("3", 3, 3),
-    QUATRE("4", 4, 4),
-    CINQ("5", 5, 5),
+	TWO("2", 2, 2),
+    THREE("3", 3, 3),
+    FOUR("4", 4, 4),
+    FIVE("5", 5, 5),
     SIX("6", 6, 6),
-    SEPT("7", 7, 7),
-    HUIT("8", 8, 8),
-    NEUF("9", 9, 9),
-    DIX("10", 10, 10),
-    VALET("J", 10, 11),
-    DAME("Q", 10, 12),
-    ROI("K", 10, 13),
-    AS("A", 11, 14);
+    SEVEN("7", 7, 7),
+    EIGHT("8", 8, 8),
+    NINE("9", 9, 9),
+    TEN("10", 10, 10),
+    JACK("J", 10, 11),
+    QUEEN("Q", 10, 12),
+    KING("K", 10, 13),
+    ACE("A", 11, 14);
 	
 
-	private final String s;
+	private final String symbol;
 	private final int value;
-	private final int ordre;
-	
-    Rank(String s, int value, int ordre) {
-        this.s = s;
+	private final int order;
+
+    Rank(String symbol, int value, int order) {
+        this.symbol = symbol;
         this.value = value;
-        this.ordre = ordre;
+        this.order = order;
     }
-    
-    public String symbole() {
-    	return s;
+
+    public String symbol() {
+    	return symbol;
     }
 
     public int value() {
     	return value;
     }
 
-    public int ordre() {
-    	return ordre;
+    public int order() {
+    	return order;
     }
     
 }

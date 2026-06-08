@@ -22,22 +22,22 @@ public class BoardView {
 		
 
 		Blind blind = state.currentBlind();
-		String nomBlind = blind.name();
-		int objectif    = blind.score();
+		String blindName = blind.name();
+		int target    = blind.score();
 
 		g.setColor(new Color(255, 190, 0));
 		g.setFont(new Font("SansSerif", Font.BOLD, 26));
-		g.drawString(nomBlind, x + 20, y + 45);
+		g.drawString(blindName, x + 20, y + 45);
 
 		g.setColor(Color.WHITE);
 		g.setFont(new Font("SansSerif", Font.PLAIN, 16));
-		g.drawString("a battre : " + objectif, x + 20, y + 72);
+		g.drawString("To beat: " + target, x + 20, y + 72);
 
 		g.setFont(new Font("SansSerif", Font.BOLD, 20));
-		int ligne = y + 120;
-		int pas = 32;
-		g.drawString("Score : " + state.score(),               x + 20, ligne);
-		g.drawString("Mains : " + state.handsRemaining(),      x + 20, ligne += pas);
-		g.drawString("Defausses : " + state.discardsRemaining(), x + 20, ligne += pas);
+		int line = y + 120;
+		int step = 32;
+		g.drawString("Score: " + state.score(),                 x + 20, line);
+		g.drawString("Hands: " + state.handsRemaining(),        x + 20, line += step);
+		g.drawString("Discards: " + state.discardsRemaining(),  x + 20, line += step);
 	}
 }

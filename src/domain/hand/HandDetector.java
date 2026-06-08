@@ -15,62 +15,62 @@ public class HandDetector {
 	
 	public Type detect(List<Card> cards) {
 		Objects.requireNonNull(cards);
-		if(estSuite(cards)) {
-			if(estCouleur(cards))return Type.QUINTE_FLUSH;
-			else return Type.SUITE;
+		if(isStraight(cards)) {
+			if(isFlush(cards))return Type.STRAIGHT_FLUSH;
+			else return Type.STRAIGHT;
 		}
-		else if(estCouleur(cards))return Type.COULEUR;
+		else if(isFlush(cards))return Type.FLUSH;
 		else {
-			Map<Rank, Integer> m = compterParRang(cards);
-			Integer paires=0;
-			boolean brelan = false;
+			Map<Rank, Integer> m = countByRank(cards);
+			Integer pairs=0;
+			boolean threeOfAKind = false;
 			for(Integer v : m.values()) {
-				if(v == 2)paires++;
+				if(v == 2)pairs++;
 				if(v == 3) {
-					brelan=true;
+					threeOfAKind=true;
 				}
 				if(v==4) {
-					return Type.CARRE;
+					return Type.FOUR_OF_A_KIND;
 				}
 			}
-			if(paires == 1) {
-				if(brelan == true ) return Type.FULL;
-				else return Type.PAIRE;
+			if(pairs == 1) {
+				if(threeOfAKind == true ) return Type.FULL_HOUSE;
+				else return Type.PAIR;
 			}
-			if(paires == 2) {
-				return Type.DOUBLE_PAIRE;
+			if(pairs == 2) {
+				return Type.TWO_PAIR;
 			}
-			if(brelan)return Type.BRELAN;
+			if(threeOfAKind)return Type.THREE_OF_A_KIND;
 		}
-		return Type.CARTE_HAUTE;
+		return Type.HIGH_CARD;
 	}
 	
 	
-	private boolean estSuite(List<Card> cards) {
+	private boolean isStraight(List<Card> cards) {
 	    List<Card> t = new ArrayList<>(cards);
 	    
-	    t.sort((a, b) -> a.rank().ordre() - b.rank().ordre());
+	    t.sort((a, b) -> a.rank().order() - b.rank().order());
 	    
-	    if (t.get(0).rank() == Rank.DEUX
-	            && t.get(1).rank() == Rank.TROIS
-	            && t.get(2).rank() == Rank.QUATRE
-	            && t.get(3).rank() == Rank.CINQ
-	            && t.get(4).rank() == Rank.AS) {
+	    if (t.get(0).rank() == Rank.TWO
+	            && t.get(1).rank() == Rank.THREE
+	            && t.get(2).rank() == Rank.FOUR
+	            && t.get(3).rank() == Rank.FIVE
+	            && t.get(4).rank() == Rank.ACE) {
 	            return true;
 	        }
 		
 		for (int i = 0; i < cards.size()-1; i++) {
-			int c = t.get(i).rank().ordre();
-			int s = t.get(i+1).rank().ordre();
+			int c = t.get(i).rank().order();
+			int s = t.get(i+1).rank().order();
 			if(c+1 != s)return false;
 		}
 		return true;
 	}
 	
-	private boolean estCouleur(List<Card> cards) {
-		Couleur c = cards.getFirst().color();
+	private boolean isFlush(List<Card> cards) {
+		Suit c = cards.getFirst().suit();
 		for (Card card : cards) {
-			if(!card.color().equals(c)){
+			if(!card.suit().equals(c)){
 				return false;
 			}
 		}
@@ -78,7 +78,7 @@ public class HandDetector {
 	}
 	
 
-	private Map<Rank, Integer> compterParRang(List<Card> cards){
+	private Map<Rank, Integer> countByRank(List<Card> cards){
 		Map<Rank,Integer> map = new HashMap<>();
 		for (Card card : cards) {
 		    map.merge(card.rank(), 1, Integer::sum);
